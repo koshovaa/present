@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
@@ -40,14 +39,8 @@ button {
 }
 
 .yes { background: #c0f0c0; }
-.no {
-    background: #ffb3b3;
-    position: absolute;
-}
-.gift-btn {
-    background: #ffd3b3;
-    font-weight: bold;
-}
+.no { background: #ffb3b3; position: absolute; }
+.gift-btn { background: #ffd3b3; font-weight: bold; }
 
 .hidden { display: none; }
 
@@ -58,20 +51,18 @@ button {
     font-size: 24px;
     animation: fall linear forwards;
 }
-@keyframes fall {
-    to { transform: translateY(110vh); opacity: 0; }
-}
+@keyframes fall { to { transform: translateY(110vh); opacity: 0; } }
 
-/* 🎁 НОВА КОРОБКА */
+/* 🎁 Коробка з ефектом об’єму */
 .gift {
     position: relative;
     width: 240px;
     height: 160px;
-    margin: 20px auto;
-    perspective: 1500px;
+    margin: 20px auto 50px;
+    perspective: 1200px;
 }
 
-/* низ */
+/* Низ коробки */
 .gift-base {
     width: 100%;
     height: 120px;
@@ -80,69 +71,58 @@ button {
     position: absolute;
     bottom: 0;
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    z-index: 1;
 }
 
-/* кришка */
+/* Кришка коробки */
 .gift-lid {
     width: 100%;
-    height: 70px;
+    height: 60px;
     background: linear-gradient(145deg, #ff3b3b, #ff6b6b);
     border-radius: 12px 12px 8px 8px;
     position: absolute;
     top: 0;
-    transform-origin: top;
-    transition: transform 1s ease;
-    z-index: 2;
+    transform-origin: left bottom;
+    transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 5px;
 }
 
-/* відкриття */
+/* Відкриття кришки з ефектом об’єму */
 .gift.open .gift-lid {
-    transform: rotateX(-130deg) translateY(-10px);
+    transform: rotateY(-25deg) rotateX(20deg) translateZ(10px);
 }
 
-/* стрічки */
+/* Стрічки */
 .ribbon-v {
     position: absolute;
-    width: 30px;
+    width: 20px;
     height: 100%;
     background: #8b0000;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 2;
 }
 .ribbon-h {
     position: absolute;
     width: 100%;
-    height: 25px;
+    height: 20px;
     background: #8b0000;
-    top: 20px;
+    top: 15px;
+    z-index: 2;
 }
 
-/* бантик */
+/* Бантик - смайлик на кришці */
 .bow {
     position: absolute;
-    top: -25px;
+    top: -35px;
     left: 50%;
     transform: translateX(-50%);
-    width: 70px;
-    height: 40px;
-    z-index: 3;
-}
-.bow::before,
-.bow::after {
-    content: "";
-    position: absolute;
-    width: 35px;
-    height: 45px;
-    background: #ff4d4d;
-    border-radius: 50% 50% 0 50%;
-}
-.bow::before {
-    left: 0;
-    transform: rotate(-30deg);
-}
-.bow::after {
-    right: 0;
-    transform: rotate(30deg) scaleX(-1);
+    font-size: 100px;
+    z-index: 4;
 }
 
 /* Квитки */
@@ -164,27 +144,20 @@ button {
     position: absolute;
     width: 100%;
     max-width: 300px;
-
-    background: linear-gradient(135deg, #ffb347, #ffcc33);
+    background: linear-gradient(145deg, #f5e6d3, #e0c097);
     padding: 12px;
     border-radius: 12px;
     overflow: hidden;
-
     box-shadow: 0 12px 30px rgba(0,0,0,0.35);
-
     opacity: 0;
     transform: translateY(-50px) rotate(0deg);
     transition: 1s;
 }
 
-.ticket img {
-    width: 100%;
-    border-radius: 8px;
-}
+.ticket img { width: 100%; border-radius: 8px; }
 
-/* вирізи */
-.ticket::before,
-.ticket::after {
+/* Вирізи */
+.ticket::before, .ticket::after {
     content: "";
     position: absolute;
     width: 28px;
@@ -197,17 +170,17 @@ button {
 .ticket::before { left: -14px; }
 .ticket::after { right: -14px; }
 
-/* перфорація */
+/* Перфорація */
 .perforation {
     position: absolute;
     top: 10%;
     bottom: 10%;
-    left: 50%;
+    left: 90%;
     border-left: 2px dashed rgba(0,0,0,0.4);
     transform: translateX(-50%);
 }
 
-/* позиції */
+/* Позиції квитків */
 .ticket1 { top: 0; left: 20px; }
 .ticket2 { top: 10px; left: 0; }
 
@@ -220,16 +193,14 @@ button {
     transform: translateY(0) rotate(-10deg);
 }
 </style>
-
 </head>
-
 <body>
 
 <div class="card">
 
 <div id="step1">
     <h1>З Днем закоханих ❤️</h1>
-    <p>У мене є подарунок для тебе...</p>
+    <p>У мене є подарок для тебе...</p>
     <button onclick="showSurprise()">Якииий?</button>
 </div>
 
@@ -237,44 +208,37 @@ button {
     <h2>🎶 Ми йдемо на концерт!</h2>
     <p><b>ШУГАРАААА</b></p>
     <p>Підеш зі мною? 💕</p>
-    <button class="yes" onclick="yesAnswer()">Так 😍</button>
-    <button class="no" id="noBtn">Ні 🙈</button>
+    <button class="yes" onclick="yesAnswer()">Канєшно!😍</button>
+    <button class="no" id="noBtn">Не піду🙈</button>
 </div>
 
 <div id="final" class="hidden">
     <h2>Урааа 💖</h2>
-    <p>Я знала, що ти погодишся 😄</p>
+    <p>Я знала, що погодишся 😄</p>
+	<p>Люблю тебе ❤️</p>
 
-```
-<button class="gift-btn" onclick="openGift()">Відкрити подарунок 🎁</button>
+    <button class="gift-btn" onclick="openGift()">Відкрити 🎁</button>
 
-<div id="giftBox" class="gift">
-    <div class="gift-lid">
-        <div class="ribbon-h"></div>
+    <div id="giftBox" class="gift">
+        <div class="gift-lid">
+            <div class="ribbon-h"></div>
+            <div class="bow">💝</div>
+        </div>
+        <div class="gift-base">
+            <div class="ribbon-v"></div>
+        </div>
     </div>
 
-    <div class="gift-base">
-        <div class="ribbon-v"></div>
+    <div id="ticketBox" class="ticket-container">
+        <div class="ticket ticket1" id="ticket1">
+            <div class="perforation"></div>
+            <img src="ticket1.jpg">
+        </div>
+        <div class="ticket ticket2" id="ticket2">
+            <div class="perforation"></div>
+            <img src="ticket2.jpg">
+        </div>
     </div>
-
-    <div class="bow"></div>
-</div>
-
-<div id="ticketBox" class="ticket-container">
-
-    <div class="ticket ticket1" id="ticket1">
-        <div class="perforation"></div>
-        <img src="ticket1.jpg">
-    </div>
-
-    <div class="ticket ticket2" id="ticket2">
-        <div class="perforation"></div>
-        <img src="ticket2.jpg">
-    </div>
-
-</div>
-```
-
 </div>
 
 </div>
@@ -293,34 +257,41 @@ function createHearts() {
 }
 
 function showSurprise() {
-    step1.classList.add("hidden");
-    step2.classList.remove("hidden");
+    document.getElementById("step1").classList.add("hidden");
+    document.getElementById("step2").classList.remove("hidden");
     createHearts();
 }
 
 const noBtn = document.getElementById("noBtn");
-noBtn.addEventListener("mouseover", () => {
-    noBtn.style.left = Math.random()*200+"px";
-    noBtn.style.top = Math.random()*100+"px";
-});
+noBtn.addEventListener("mouseover", moveButton);
+noBtn.addEventListener("touchstart", moveButton);
+function moveButton() {
+    const card = document.querySelector(".card");
+    const maxX = card.clientWidth - noBtn.clientWidth;
+    const maxY = card.clientHeight - noBtn.clientHeight;
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
+}
 
 function yesAnswer() {
-    step2.classList.add("hidden");
-    final.classList.remove("hidden");
+    document.getElementById("step2").classList.add("hidden");
+    document.getElementById("final").classList.remove("hidden");
     createHearts();
 }
 
 function openGift() {
+    const giftBox = document.getElementById("giftBox");
     giftBox.classList.add("open");
 
     setTimeout(() => {
+        const ticketBox = document.getElementById("ticketBox");
         ticketBox.classList.add("show");
         setTimeout(() => {
-            ticket1.classList.add("show");
-            ticket2.classList.add("show");
+            document.getElementById("ticket1").classList.add("show");
+            document.getElementById("ticket2").classList.add("show");
             createHearts();
         }, 200);
-    }, 1000);
+    }, 500);
 }
 </script>
 
